@@ -14,6 +14,6 @@ class AuthApi {
   };
 }
 
-let base = "users";
+let base = "http://127.0.0.1:5000/api/users";
 
 export default AuthApi;

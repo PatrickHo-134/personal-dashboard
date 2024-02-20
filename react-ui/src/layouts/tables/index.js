@@ -25,17 +25,17 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import Table from "examples/Table";
+import NewsTable from "./newsTable";
 
 // Custom styles for the Tables
 import styles from "layouts/tables/styles";
 
 // Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
+import NewsData from "./data/newsHeadlinesData";
 
 function Tables() {
   const classes = styles();
-  const { columns, rows } = authorsTableData;
   const { columns: prCols, rows: prRows } = projectsTableData;
 
   return (
@@ -43,15 +43,9 @@ function Tables() {
       <DashboardNavbar />
       <SuiBox py={3}>
         <SuiBox mb={3}>
-          <Card>
-            <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SuiTypography variant="h6">Authors table</SuiTypography>
-            </SuiBox>
-            <SuiBox customClass={classes.tables_table}>
-              <Table columns={columns} rows={rows} />
-            </SuiBox>
-          </Card>
+          <NewsTable data={NewsData} />
         </SuiBox>
+
         <Card>
           <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
             <SuiTypography variant="h6">Projects table</SuiTypography>
