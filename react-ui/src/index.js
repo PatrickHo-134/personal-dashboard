@@ -22,17 +22,20 @@ import App from "App";
 import { SoftUIControllerProvider } from "context";
 
 import { AuthProvider } from "auth-context/auth.context";
+import { Provider } from "react-redux";
 
 let user = localStorage.getItem("user");
 user = JSON.parse(user);
 
 ReactDOM.render(
   <BrowserRouter>
-    <SoftUIControllerProvider>
-      <AuthProvider userData={user}>
-        <App />
-      </AuthProvider>
-    </SoftUIControllerProvider>
+    <Provider store={store}>
+      <SoftUIControllerProvider>
+        <AuthProvider userData={user}>
+          <App />
+        </AuthProvider>
+      </SoftUIControllerProvider>
+    </Provider>
   </BrowserRouter>,
   document.getElementById("root")
 );
