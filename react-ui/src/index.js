@@ -23,6 +23,7 @@ import { SoftUIControllerProvider } from "context";
 
 import { AuthProvider } from "auth-context/auth.context";
 import { Provider } from "react-redux";
+import store from "./store"
 
 let user = localStorage.getItem("user");
 user = JSON.parse(user);

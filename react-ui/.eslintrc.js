@@ -15,7 +15,7 @@ module.exports = {
       "printWidth": 90,
       "bracketSpacing": false,
       "trailingComma": "es5"
-    }  
+    }
   },
   plugins: ["react"],
   extends: [
@@ -25,10 +25,6 @@ module.exports = {
   ],
   rules: {
     "react/react-in-jsx-scope": "off",
-    "prettier/prettier": 
-    [ "error",
-      {
-        "endOfLine": "auto"}
-    ]
+    "prettier/prettier": 0
   }
 };
