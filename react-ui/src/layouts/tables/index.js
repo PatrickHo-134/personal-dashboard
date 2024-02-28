@@ -32,7 +32,6 @@ import styles from "layouts/tables/styles";
 
 // Data
 import projectsTableData from "layouts/tables/data/projectsTableData";
-import NewsData from "./data/newsHeadlinesData";
 
 function Tables() {
   const classes = styles();
@@ -43,7 +42,7 @@ function Tables() {
       <DashboardNavbar />
       <SuiBox py={3}>
         <SuiBox mb={3}>
-          <NewsTable data={NewsData} />
+          <NewsTable />
         </SuiBox>
 
         <Card>
