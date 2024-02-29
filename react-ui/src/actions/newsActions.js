@@ -1,39 +1,54 @@
 import axios from 'axios';
 
 // Action Types
-export const FETCH_TOP_NEWS_REQUEST = 'FETCH_TOP_NEWS_REQUEST';
-export const FETCH_TOP_NEWS_SUCCESS = 'FETCH_TOP_NEWS_SUCCESS';
-export const FETCH_TOP_NEWS_FAILURE = 'FETCH_TOP_NEWS_FAILURE';
+export const FETCH_NEWS_REQUEST = "FETCH_NEWS_REQUEST";
+export const FETCH_NEWS_SUCCESS = "FETCH_NEWS_SUCCESS";
+export const FETCH_NEWS_FAILURE = "FETCH_NEWS_FAILURE";
+export const SET_COUNTRY = "SET_COUNTRY";
+export const SET_NEWS_TOPIC = "SET_NEWS_TOPIC";
 
 // Action Creators
-export const fetchTopNewsRequest = () => ({
-    type: FETCH_TOP_NEWS_REQUEST,
+export const fetchNewsRequest = () => ({
+    type: FETCH_NEWS_REQUEST,
 });
 
-export const fetchTopNewsSuccess = (data) => ({
-    type: FETCH_TOP_NEWS_SUCCESS,
+export const fetchNewsSuccess = (data) => ({
+    type: FETCH_NEWS_SUCCESS,
     payload: data,
 });
 
-export const fetchTopNewsFailure = (error) => ({
-    type: FETCH_TOP_NEWS_FAILURE,
+export const fetchNewsFailure = (error) => ({
+    type: FETCH_NEWS_FAILURE,
     payload: error,
+});
+
+export const setCountry = (country) => ({
+    type: SET_COUNTRY,
+    payload: country,
+});
+
+export const setNewsTopic = (topic) => ({
+    type: SET_NEWS_TOPIC,
+    payload: topic,
 });
 
 // Async Action Creator
 
 const API_BASE_URL = "http://127.0.0.1:5000/api";
 
-export const fetchTopNews = () => {
+export const fetchNews = (country, topic) => {
     return (dispatch) => {
-        dispatch(fetchTopNewsRequest());
+        dispatch(fetchNewsRequest());
 
-        axios.get(`${API_BASE_URL}/top-news-headlines/`)
+        const apiUrl = `${API_BASE_URL}/news-headlines/`;
+        const params = { country, topic };
+
+        axios.get(apiUrl, { params })
             .then((response) => {
-                dispatch(fetchTopNewsSuccess(response.data));
+                dispatch(fetchNewsSuccess(response.data));
             })
             .catch((error) => {
-                dispatch(fetchTopNewsFailure(error.message));
+                dispatch(fetchNewsFailure(error.message));
             });
     };
 };

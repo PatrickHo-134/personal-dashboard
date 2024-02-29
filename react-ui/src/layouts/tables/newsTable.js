@@ -1,55 +1,122 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useDispatch,
   useSelector
 } from "react-redux";
-import { fetchTopNews } from '../../actions/newsActions';
+import { fetchNews, setCountry, setNewsTopic } from '../../actions/newsActions';
 
 import PropTypes from "prop-types";
-import { Table, TableBody, TableCell, TableContainer, TableRow, Paper, Link } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Paper, Link, Card, Icon, Menu, MenuItem, ToggleButton, ToggleButtonGroup
+} from "@mui/material";
 
+// Soft UI Dashboard React components
+import SuiBox from "../../components/SuiBox";
+import SuiTypography from "../../components/SuiTypography";
 
-const columnStyles = {
-  title: { width: "50%" },
-  source: { width: "25%" },
-  publishedDate: { width: "25%" },
+const CountryToggleButtons = () => {
+  const dispatch = useDispatch();
+  const selectedCountry = useSelector((state) => state.news.country);
+  const selectedTopic = useSelector((state) => state.news.topic);
+
+  const handleCountryChange = (event, newCountry) => {
+    if (newCountry !== null) {
+      dispatch(setCountry(newCountry));
+      dispatch(fetchNews(newCountry, selectedTopic));
+    }
+  };
+
+  return (
+    <ToggleButtonGroup
+      value={selectedCountry}
+      exclusive
+      onChange={handleCountryChange}
+      aria-label="country selection"
+    >
+      <ToggleButton value="AU" aria-label="Australia">
+        AU
+      </ToggleButton>
+      <ToggleButton value="US" aria-label="United States">
+        US
+      </ToggleButton>
+    </ToggleButtonGroup>
+  );
 };
 
-function NewsTable() {
+const TopicToggleButtons = () => {
+  const newsTopics = ["top news", "world", "nation", "business", "technology", "entertainment", "science", "sports", "health"]
   const dispatch = useDispatch();
-  const { loading, news, error } = useSelector((state) => state.news);
+  const selectedCountry = useSelector((state) => state.news.country);
+  const selectedTopic = useSelector((state) => state.news.topic);
+
+  const handleTopicChange = (event, topic) => {
+    if (topic !== null) {
+      dispatch(setNewsTopic(topic));
+      dispatch(fetchNews(selectedCountry, topic));
+    }
+  };
+
+  return (
+    <ToggleButtonGroup
+      value={selectedTopic}
+      exclusive
+      onChange={handleTopicChange}
+      aria-label="news topic selection"
+    >
+      {newsTopics.map((item, index) => (
+        <ToggleButton key={index} value={item} aria-label={item}>
+          {item}
+        </ToggleButton>
+      ))}
+
+    </ToggleButtonGroup>
+  );
+};
+
+function Headlines() {
+  const dispatch = useDispatch();
+  const { loading, news, error, country, topic } = useSelector((state) => state.news);
 
   useEffect(() => {
-    dispatch(fetchTopNews());
+    dispatch(fetchNews(country, topic));
   }, [dispatch]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <SuiTypography>
+        Loading...
+      </SuiTypography>
+    );
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return (
+      <SuiTypography>
+        {error}
+      </SuiTypography>
+    );
   }
 
   return (
-    <div style={{ maxHeight: "30rem", overflowY: "auto" }}>
+    <div style={{
+      maxHeight: "40rem",
+      overflowY: "auto"
+    }}>
       <TableContainer component={Paper}>
         <Table>
           <TableBody>
-            <TableRow>
-              <TableCell style={{ width: "60%", fontWeight: "bold" }}>Title</TableCell>
-              <TableCell style={{ width: "20%", fontWeight: "bold" }}>Source</TableCell>
-              <TableCell style={{ width: "20%", fontWeight: "bold" }}>Published Date</TableCell>
-            </TableRow>
             {news.map((item, index) => (
               <TableRow key={index}>
-                <TableCell style={columnStyles.title}>
+                <TableCell>
                   <Link href={item.link} target="_blank" rel="noopener noreferrer" color="blue">
                     {item.title}
                   </Link>
                 </TableCell>
-                <TableCell style={columnStyles.source}>{item.source}</TableCell>
-                <TableCell style={columnStyles.publishedDate}>{item.published_date}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -58,6 +125,63 @@ function NewsTable() {
     </div>
   );
 }
+
+function NewsTable() {
+  const [menu, setMenu] = useState(null);
+
+  const openMenu = ({ currentTarget }) => setMenu(currentTarget);
+  const closeMenu = () => setMenu(null);
+
+  const renderMenu = (
+    <Menu
+      id="simple-menu"
+      anchorEl={menu}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "left",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={Boolean(menu)}
+      onClose={closeMenu}
+    >
+      <MenuItem onClick={closeMenu}>Action</MenuItem>
+      <MenuItem onClick={closeMenu}>Another action</MenuItem>
+      <MenuItem onClick={closeMenu}>Something else</MenuItem>
+    </Menu>
+  );
+
+  return (
+    <Card>
+      <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+        <SuiBox>
+          <SuiTypography variant="h5" fontWeight="bold">
+            News
+          </SuiTypography>
+
+          <SuiBox>
+            <CountryToggleButtons />
+            <TopicToggleButtons />
+          </SuiBox>
+
+
+        </SuiBox>
+        <SuiBox color="text" px={2}>
+          <Icon className="cursor-pointer font-bold" fontSize="small" onClick={openMenu}>
+            more_vert
+          </Icon>
+        </SuiBox>
+        {renderMenu}
+      </SuiBox>
+      <SuiBox p={2}>
+        <Headlines />
+      </SuiBox>
+    </Card>
+  );
+}
+
 
 NewsTable.propTypes = {
   data: PropTypes.arrayOf(

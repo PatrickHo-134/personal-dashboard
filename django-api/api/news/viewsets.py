@@ -8,13 +8,6 @@ from dateutil import parser
 import json
 import time
 
-countries = {'AU': 'Australia',
-             'US': 'United States'}
-
-gn = GoogleNews(lang = 'en', country = 'AU')
-
-top = gn.top_news()
-
 def transform_entry_detail(entry):
     publish_timestamp = parser.parse(entry["published"])
     source_href = entry.get('source', {}).get('href')
@@ -28,7 +21,9 @@ def transform_entry_detail(entry):
             'source': source,
             'source_href': source_href}
 
-def get_top_headlines():
+def get_top_headlines(source_country="AU"):
+    gn = GoogleNews(country = source_country)
+
     top = gn.top_news()
     entries = top["entries"]
 
@@ -36,7 +31,9 @@ def get_top_headlines():
 
     return result
 
-def get_topic_headlines(topic='business'):
+def get_topic_headlines(source_country="AU", topic='business'):
+    gn = GoogleNews(country = source_country)
+
     data = gn.topic_headlines(topic, proxies=None, scraping_bee = None)
     entries = data['entries']
 
@@ -44,32 +41,22 @@ def get_topic_headlines(topic='business'):
 
     return result
 
-def generate_headlines(topic=None):
-    if topic == None:
-        entries = get_top_headlines()
+def generate_headlines(country="AU", topic="top news"):
+    if topic == None or topic == "top news":
+        entries = get_top_headlines(country)
     else:
-        entries = get_topic_headlines(topic)
+        entries = get_topic_headlines(country, topic)
 
-    count = 0
-    result = []
-    for entry in entries:
-        count = count + 1
-        headline = entry['title']
-        result.append(headline)
-
-    return result
+    return entries
 
 class NewsHeadlinesView(APIView):
     def get(self, request, *args, **kwargs):
+        source_country = request.GET.get("country", "AU")
+        news_topic = request.GET.get("topic", "top news")
+
         try:
-            # Assuming you have a 'published' field in your News model
-            news_headlines = get_top_headlines()
-            # News.objects.filter(published=True).order_by('-published_date')[:10]
-
-            # Serialize the queryset
+            news_headlines = generate_headlines(source_country, news_topic)
             serializer = NewsSerializer(news_headlines, many=True)
-
             return Response(serializer.data, status=status.HTTP_200_OK)
-
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
