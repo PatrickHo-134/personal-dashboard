@@ -25,7 +25,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import Table from "examples/Table";
-import NewsTable from "./newsTable";
+import NewsTable from "../dashboard/components/News/newsTable";
 
 // Custom styles for the Tables
 import styles from "layouts/tables/styles";

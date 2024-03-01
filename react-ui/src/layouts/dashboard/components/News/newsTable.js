@@ -3,7 +3,7 @@ import {
   useDispatch,
   useSelector
 } from "react-redux";
-import { fetchNews, setCountry, setNewsTopic } from '../../actions/newsActions';
+import { fetchNews, setCountry, setNewsTopic } from '../../../../actions/newsActions';
 
 import PropTypes from "prop-types";
 import {
@@ -16,8 +16,8 @@ import {
 } from "@mui/material";
 
 // Soft UI Dashboard React components
-import SuiBox from "../../components/SuiBox";
-import SuiTypography from "../../components/SuiTypography";
+import SuiBox from "../../../../components/SuiBox";
+import SuiTypography from "../../../../components/SuiTypography";
 
 const CountryToggleButtons = () => {
   const dispatch = useDispatch();
@@ -157,7 +157,7 @@ function NewsTable() {
     <Card>
       <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
         <SuiBox>
-          <SuiTypography variant="h5" fontWeight="bold">
+          <SuiTypography variant="h6" fontWeight="bold">
             News
           </SuiTypography>
 
