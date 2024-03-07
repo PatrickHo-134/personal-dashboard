@@ -34,9 +34,9 @@ import typography from "assets/theme/base/typography";
 
 // Dashboard layout components
 import BuildByDevelopers from "layouts/dashboard/components/BuildByDevelopers";
-import WorkWithTheRockets from "layouts/dashboard/components/WorkWithTheRockets";
 import OrderOverview from "layouts/dashboard/components/OrderOverview";
 import NewsTable from "./components/News/newsTable";
+import CurrentWeather from "./components/Weather/currentWeather";
 
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
@@ -95,7 +95,7 @@ function Dashboard() {
               <BuildByDevelopers />
             </Grid>
             <Grid item xs={12} lg={5}>
-              <WorkWithTheRockets />
+              <CurrentWeather />
             </Grid>
           </Grid>
         </SuiBox>

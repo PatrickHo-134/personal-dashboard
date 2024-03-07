@@ -182,7 +182,6 @@ function NewsTable() {
   );
 }
 
-
 NewsTable.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({

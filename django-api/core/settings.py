@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "api.user",
     "api.authentication",
     "api.news",
+    "api.weather_forecast",
 ]
 
 MIDDLEWARE = [
