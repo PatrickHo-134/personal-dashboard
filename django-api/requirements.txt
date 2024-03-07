@@ -5,4 +5,7 @@ django-cors-headers==3.13.0
 gunicorn==20.1.0
 django-environ==0.8.1
 pygooglenews==0.1.2
+setuptools<58
+dateparser>=1.0.0
+feedparser>=6.0.8
 newspaper3k==0.2.8
