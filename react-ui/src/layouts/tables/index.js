@@ -26,6 +26,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import Table from "examples/Table";
 import NewsTable from "../dashboard/components/News/newsTable";
+import PropertyList from "../dashboard/components/PropertyData/propertyList";
 
 // Custom styles for the Tables
 import styles from "layouts/tables/styles";
@@ -44,6 +45,11 @@ function Tables() {
         <SuiBox mb={3}>
           <NewsTable />
         </SuiBox>
+
+        <SuiBox mb={3}>
+          <PropertyList />
+        </SuiBox>
+
 
         <Card>
           <SuiBox display="flex" justifyContent="space-between" alignItems="center" p={3}>

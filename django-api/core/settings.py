@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "api.authentication",
     "api.news",
     "api.weather_forecast",
+    "api.properties",
 ]
 
 MIDDLEWARE = [
@@ -85,13 +86,13 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE"  : env("DB_ENGINE"  , default="django.db.backends.sqlite3"),
-        "NAME"    : env("DB_DATABASE", default=os.path.join(BASE_DIR, "db.sqlite3")),
-        "USER"    : env("DB_USER"    , default=None),
-        "PASSWORD": env("DB_PASSWORD", default=None),
-        "HOST"    : env("DB_HOST"    , default=None),
-        "PORT"    : env("DB_PORT"    , default=None),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dashboard',      # Replace with your database name
+        'USER': 'postgres',      # Replace with your database user
+        'PASSWORD': 'secretpassword',  # Replace with your database password
+        'HOST': 'localhost',      # Usually 'localhost' or the IP address of your DB server
+        'PORT': '5432',      # Default is '5432', but replace it if your DB runs on a different port
     }
 }
 
